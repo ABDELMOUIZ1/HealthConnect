@@ -12,11 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+
+import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+
+import java.util.concurrent.TimeUnit;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -57,11 +63,10 @@ public class DoctorService {
         doctorDTO.setEndTimeOfWork(doctor.getEndTimeOfWork());
         doctorDTO.setStartTimeOfWork(doctor.getStartTimeOfWork());
 
-        doctorDTO.setAppointments(convertAppointmentsToDTOs(doctor.getAppointments()));
         return doctorDTO;
     }
 
-    private List<AppointmentDTO> convertAppointmentsToDTOs(List<Appointment> appointments) {
+    private List<AvailableSlotDTO> convertAppointmentsToDTOs(List<Appointment> appointments) {
         if (appointments != null) { // Add null check here
             return appointments.stream()
                     .map(this::convertToAppointmentDTO)
@@ -72,12 +77,13 @@ public class DoctorService {
     }
 
 
-    private AppointmentDTO convertToAppointmentDTO(Appointment appointment) {
-        AppointmentDTO appointmentDTO = new AppointmentDTO();
+    private AvailableSlotDTO convertToAppointmentDTO(Appointment appointment) {
+        AvailableSlotDTO appointmentDTO = new AvailableSlotDTO();
         appointmentDTO.setStartTime(appointment.getStartTime());
         appointmentDTO.setEndTime(appointment.getEndTime());
-        appointmentDTO.setStatusAppointment(appointment.getStatusAppointment());
-        appointmentDTO.setDateOnly(appointment.getDateOnly());
+
+
+
         return appointmentDTO;
     }
 

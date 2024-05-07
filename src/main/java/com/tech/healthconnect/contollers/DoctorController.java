@@ -11,6 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -60,4 +64,7 @@ public class DoctorController {
         return ResponseEntity.ok(availabilitySlots);
 
     }
-}
+
+
+    }
+

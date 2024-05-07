@@ -25,7 +25,11 @@ public class DoctorDTO {
     private String currentCity;
     private String officeAddress;
     private Specialization specialization;
+
+
+
     private List<AppointmentDTO> appointments;
+
     private LocalTime startTimeOfWork;
     private LocalTime endTimeOfWork;
 

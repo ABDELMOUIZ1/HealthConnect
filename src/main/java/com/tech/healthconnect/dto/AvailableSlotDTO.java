@@ -14,5 +14,4 @@ public class AvailableSlotDTO {
     private LocalTime startTime;
     private LocalTime endTime;
 
-
 }

@@ -1,6 +1,11 @@
 package com.tech.healthconnect.services;
 
 
+
+import org.springframework.stereotype.Service;
+
+
+
 import com.tech.healthconnect.dto.AvailableSlotDTO;
 import com.tech.healthconnect.dto.CreateAppointmentDTO;
 import com.tech.healthconnect.models.Appointment;
@@ -15,8 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+
 @Service
 public class AppointmentService {
+
 
     @Autowired
     private AppointmentRepo appointmentRepo;
@@ -46,4 +53,5 @@ public class AppointmentService {
         // Save the appointment
         appointmentRepo.save(appointment);
     }
+
 }

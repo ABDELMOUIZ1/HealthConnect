@@ -20,5 +20,5 @@ public class PatientDTO {
     private String patientEmail;
     private String currentCity;
 
-    private List<AppointmentDTO> appointments;
+    private List<AvailableSlotDTO> appointments;
 }

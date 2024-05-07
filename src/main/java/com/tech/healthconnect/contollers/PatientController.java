@@ -1,6 +1,7 @@
 package com.tech.healthconnect.contollers;
 
 import com.tech.healthconnect.dto.*;
+import com.tech.healthconnect.services.ConsulationService;
 import com.tech.healthconnect.services.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,9 @@ public class PatientController {
 
     @Autowired
     PatientService patientService;
+    @Autowired
+    private ConsulationService consultationService;
+
 
     @PostMapping("/create")
     public ResponseEntity<PatientDTO> createPatient(@RequestBody CreatePatientDTO createPatientDTO) {
@@ -29,5 +33,14 @@ public class PatientController {
     public ResponseEntity<PatientDTO> updatePatient(@PathVariable Long patientId, @RequestBody PatientUpdateDTO patientUpdateDTO) {
         PatientDTO patientDTO = patientService.updatePatient(patientId, patientUpdateDTO);
         return ResponseEntity.status(HttpStatus.OK).body(patientDTO);
+    }
+    @GetMapping("/consultation-report/{appointmentId}")
+    public ResponseEntity<String> getConsultationReport(@PathVariable Long appointmentId) {
+        String report = consultationService.getConsultationReport(appointmentId);
+        if (report != null) {
+            return ResponseEntity.ok(report);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

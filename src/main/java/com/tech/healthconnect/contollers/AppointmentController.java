@@ -1,10 +1,12 @@
 package com.tech.healthconnect.contollers;
 
+
 import com.tech.healthconnect.dto.CreateAppointmentDTO;
 import com.tech.healthconnect.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.*;
 
 @RestController
