@@ -11,8 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+
 import java.time.LocalDate;
 import java.util.Date;
 
@@ -49,6 +51,7 @@ public class DoctorController {
         DoctorDTO doctorDTO = doctorService.updateDoctor(doctorId, doctorUpdateDTO);
         return ResponseEntity.status(HttpStatus.OK).body(doctorDTO);
     }
+
     @GetMapping("/{doctorId}/availability")
     public ResponseEntity<List<AvailableSlotDTO>> checkDoctorAvailability(
             @PathVariable Long doctorId,
@@ -59,8 +62,9 @@ public class DoctorController {
         // Obtenir les créneaux disponibles pour la date sélectionnée en utilisant DoctorService
         List<AvailableSlotDTO> availabilitySlots = doctorService.checkDoctorAvailability(doctorId, dateStr);
         return ResponseEntity.ok(availabilitySlots);
+
     }
 
 
+    }
 
-}

@@ -12,13 +12,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+
 import java.text.ParseException;
+
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
+
 import java.util.concurrent.TimeUnit;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -59,7 +63,6 @@ public class DoctorService {
         doctorDTO.setEndTimeOfWork(doctor.getEndTimeOfWork());
         doctorDTO.setStartTimeOfWork(doctor.getStartTimeOfWork());
 
-        doctorDTO.setAppointments(convertAppointmentsToDTOs(doctor.getAppointments()));
         return doctorDTO;
     }
 
@@ -78,6 +81,9 @@ public class DoctorService {
         AvailableSlotDTO appointmentDTO = new AvailableSlotDTO();
         appointmentDTO.setStartTime(appointment.getStartTime());
         appointmentDTO.setEndTime(appointment.getEndTime());
+
+
+
         return appointmentDTO;
     }
 
@@ -133,10 +139,11 @@ public class DoctorService {
         doctor.setOfficeAddress(doctorUpdateDTO.getOfficeAddress());
         doctor.setSpecialization(doctorUpdateDTO.getSpecialization());
         doctor.setStartTimeOfWork(doctorUpdateDTO.getStartTimeOfWork());
-        doctor.setEndTimeOfWork(doctor.getEndTimeOfWork());
+        doctor.setEndTimeOfWork(doctorUpdateDTO.getEndTimeOfWork());
         Doctor savedDoctor = doctorRepo.save(doctor);
         return convertToDoctorDTO(savedDoctor);
     }
+
     public List<AvailableSlotDTO> checkDoctorAvailability(Long doctorId, LocalDate date) {
         Doctor doctor = doctorRepo.findById(doctorId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
@@ -168,5 +175,6 @@ public class DoctorService {
 
         System.out.println(availabilitySlots);
         return availabilitySlots;
+
     }
 }

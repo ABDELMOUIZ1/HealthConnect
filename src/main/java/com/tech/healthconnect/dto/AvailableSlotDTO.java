@@ -13,4 +13,5 @@ import java.time.LocalTime;
 public class AvailableSlotDTO {
     private LocalTime startTime;
     private LocalTime endTime;
+
 }

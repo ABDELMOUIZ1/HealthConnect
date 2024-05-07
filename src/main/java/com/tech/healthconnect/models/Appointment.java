@@ -22,11 +22,14 @@ public class Appointment {
     private Long id;
 
 
+
+
+
     @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime startTime;
 
-
     @DateTimeFormat(pattern = "HH:mm:ss")
+
     private LocalTime endTime;
 
     @Temporal(TemporalType.DATE)
