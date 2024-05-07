@@ -33,7 +33,7 @@ public class PatientService {
         return patientDTO;
     }
 
-    private List<AppointmentDTO> convertAppointmentsToDTOs(List<Appointment> appointments) {
+    private List<AvailableSlotDTO> convertAppointmentsToDTOs(List<Appointment> appointments) {
         if (appointments != null) { // Add null check here
             return appointments.stream()
                     .map(this::convertToAppointmentDTO)
@@ -44,11 +44,10 @@ public class PatientService {
     }
 
 
-    private AppointmentDTO convertToAppointmentDTO(Appointment appointment) {
-        AppointmentDTO appointmentDTO = new AppointmentDTO();
+    private AvailableSlotDTO convertToAppointmentDTO(Appointment appointment) {
+        AvailableSlotDTO appointmentDTO = new AvailableSlotDTO();
         appointmentDTO.setStartTime(appointment.getStartTime());
         appointmentDTO.setEndTime(appointment.getEndTime());
-        appointmentDTO.setStatusAppointment(appointment.getStatusAppointment());
         return appointmentDTO;
     }
 

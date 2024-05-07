@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Data
@@ -18,13 +21,17 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.TIMESTAMP) // Changed to TIMESTAMP to include time
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") // Pattern for date and time
-    private Date startTime;
 
-    @Temporal(TemporalType.TIMESTAMP) // Changed to TIMESTAMP to include time
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss") // Pattern for date and time
-    private Date endTime;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime startTime;
+
+
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime endTime;
+
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private LocalDate dateOnly;
 
     @Enumerated(EnumType.STRING)
     private StatusAppointment statusAppointment;

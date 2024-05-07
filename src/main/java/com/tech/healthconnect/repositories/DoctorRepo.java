@@ -1,5 +1,6 @@
 package com.tech.healthconnect.repositories;
 
+import com.tech.healthconnect.models.Appointment;
 import com.tech.healthconnect.models.Doctor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,7 @@ public interface DoctorRepo extends JpaRepository<Doctor, Long> {
                                        @Param("currentCity") String currentCity,
                                        @Param("officeAddress") String officeAddress,
                                        @Param("specialization") String specialization );
+
+
+
 }

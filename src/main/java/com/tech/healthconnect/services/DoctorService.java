@@ -2,13 +2,23 @@ package com.tech.healthconnect.services;
 
 import com.tech.healthconnect.dto.*;
 import com.tech.healthconnect.models.Appointment;
+import com.tech.healthconnect.dto.AvailableSlotDTO;
 import com.tech.healthconnect.models.Doctor;
+import com.tech.healthconnect.repositories.AppointmentRepo;
 import com.tech.healthconnect.repositories.DoctorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.Collections;
-import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Service
@@ -16,7 +26,8 @@ public class DoctorService {
 
     @Autowired
     private DoctorRepo doctorRepo;
-
+    @Autowired
+    private AppointmentRepo appointmentRepo;
 
     //for searching
     @Transactional
@@ -34,8 +45,9 @@ public class DoctorService {
                 .collect(Collectors.toList());
     }
 
-    private DoctorDTO convertToDoctorDTO(Doctor doctor) {
+    public DoctorDTO convertToDoctorDTO(Doctor doctor) {
         DoctorDTO doctorDTO = new DoctorDTO();
+        doctorDTO.setDoctorId(doctor.getDoctorId());
         doctorDTO.setDoctorFirstName(doctor.getDoctorFirstName());
         doctorDTO.setDoctorLastName(doctor.getDoctorLastName());
         doctorDTO.setTitle(doctor.getTitle());
@@ -51,7 +63,7 @@ public class DoctorService {
         return doctorDTO;
     }
 
-    private List<AppointmentDTO> convertAppointmentsToDTOs(List<Appointment> appointments) {
+    private List<AvailableSlotDTO> convertAppointmentsToDTOs(List<Appointment> appointments) {
         if (appointments != null) { // Add null check here
             return appointments.stream()
                     .map(this::convertToAppointmentDTO)
@@ -62,11 +74,10 @@ public class DoctorService {
     }
 
 
-    private AppointmentDTO convertToAppointmentDTO(Appointment appointment) {
-        AppointmentDTO appointmentDTO = new AppointmentDTO();
+    private AvailableSlotDTO convertToAppointmentDTO(Appointment appointment) {
+        AvailableSlotDTO appointmentDTO = new AvailableSlotDTO();
         appointmentDTO.setStartTime(appointment.getStartTime());
         appointmentDTO.setEndTime(appointment.getEndTime());
-        appointmentDTO.setStatusAppointment(appointment.getStatusAppointment());
         return appointmentDTO;
     }
 
@@ -125,5 +136,37 @@ public class DoctorService {
         doctor.setEndTimeOfWork(doctor.getEndTimeOfWork());
         Doctor savedDoctor = doctorRepo.save(doctor);
         return convertToDoctorDTO(savedDoctor);
+    }
+    public List<AvailableSlotDTO> checkDoctorAvailability(Long doctorId, LocalDate date) {
+        Doctor doctor = doctorRepo.findById(doctorId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Doctor not found"));
+        LocalTime startTimeOfWork = doctor.getStartTimeOfWork();
+        LocalTime endTimeOfWork = doctor.getEndTimeOfWork();
+        List<Appointment> appointments = appointmentRepo.findAppointmentByDateOnly(date);
+
+        List<AvailableSlotDTO> availabilitySlots = new ArrayList<>();
+        LocalTime currentTime = startTimeOfWork;
+
+        while (currentTime.isBefore(endTimeOfWork)) {
+            LocalTime nextHour = currentTime.plusHours(1);
+            availabilitySlots.add(new AvailableSlotDTO(currentTime, nextHour));
+            currentTime = nextHour;
+        }
+
+        // Supprimer les intervalles déjà occupés par des rendez-vous
+        for (Appointment appointment : appointments) {
+            Iterator<AvailableSlotDTO> iterator = availabilitySlots.iterator();
+            while (iterator.hasNext()) {
+                AvailableSlotDTO slot = iterator.next();
+
+                LocalTime startTime = appointment.getStartTime();
+                if (slot.getStartTime().compareTo(startTime) == 0) {
+                    iterator.remove();
+                }
+            }
+        }
+
+        System.out.println(availabilitySlots);
+        return availabilitySlots;
     }
 }
