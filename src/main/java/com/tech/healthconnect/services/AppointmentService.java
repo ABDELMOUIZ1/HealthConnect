@@ -2,6 +2,7 @@ package com.tech.healthconnect.services;
 
 
 
+import com.tech.healthconnect.dto.AppointmentDTO;
 import org.springframework.stereotype.Service;
 
 
@@ -52,6 +53,9 @@ public class AppointmentService {
 
         // Save the appointment
         appointmentRepo.save(appointment);
+    }
+    public List<AppointmentDTO> getAppointmentsByPatientId(Long patientId) {
+        return appointmentRepo.findDTOByPatientId(patientId);
     }
 
 }

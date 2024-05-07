@@ -31,6 +31,4 @@ public class Patient {
     private String patientContact;
     @OneToMany(mappedBy = "patient", fetch = FetchType.EAGER)
     private List<Appointment> appointments;
-
-
 }
