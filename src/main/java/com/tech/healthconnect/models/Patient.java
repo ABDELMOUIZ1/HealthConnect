@@ -15,6 +15,7 @@ import java.util.List;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private String test ;
     private Long patientId;
     private String patientFirstName;
     private String patientLastName;
