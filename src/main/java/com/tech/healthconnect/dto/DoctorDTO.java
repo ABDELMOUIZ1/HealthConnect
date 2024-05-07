@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class DoctorDTO {
     // for searching, return
+    private Long doctorId;
     private String doctorFirstName;
     private String doctorLastName;
     private Title title;
@@ -23,7 +26,7 @@ public class DoctorDTO {
     private String officeAddress;
     private Specialization specialization;
     private List<AppointmentDTO> appointments;
-    private Date startTimeOfWork;
-    private Date endTimeOfWork;
+    private LocalTime startTimeOfWork;
+    private LocalTime endTimeOfWork;
 
 }

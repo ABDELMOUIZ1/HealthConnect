@@ -11,10 +11,6 @@ import java.util.List;
 
 @Service
 public class ConsulationService {
-    @Autowired
-    private ConsultationRepo consultationRepo;
-
-
 
 
 }

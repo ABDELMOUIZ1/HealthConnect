@@ -5,7 +5,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
@@ -34,10 +37,10 @@ public class Doctor {
     private String officeAddress;
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
-    @Temporal(TemporalType.TIME)
-    private Date startTimeOfWork;
-    @Temporal(TemporalType.TIME)
-    private Date endTimeOfWork;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime startTimeOfWork;
+    @DateTimeFormat(pattern = "HH:mm:ss")
+    private LocalTime endTimeOfWork;
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Appointment> appointments;

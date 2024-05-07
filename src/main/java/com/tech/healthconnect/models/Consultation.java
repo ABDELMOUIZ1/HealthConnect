@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,7 +18,7 @@ public class Consultation {
     private Long id;
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private Date dateConsultation;
+    private LocalDate dateConsultation;
     private String rapport;
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "appointment_id")
