@@ -13,12 +13,12 @@ import java.util.List;
 @NoArgsConstructor
 public class PatientDTO {
     // for searching, return
+    private Long patientId;
     private String patientFirstName;
     private String patientLastName;
     private Title title;
     private String patientContact;
     private String patientEmail;
     private String currentCity;
-
     private List<AppointmentDTO> appointments;
 }

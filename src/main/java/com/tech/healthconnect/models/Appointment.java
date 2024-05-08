@@ -34,11 +34,12 @@ public class Appointment {
     @Enumerated(EnumType.STRING)
     private StatusAppointment statusAppointment;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Patient patient;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Doctor doctor;
-    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToOne(mappedBy = "appointment", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Consultation consultation;
 }

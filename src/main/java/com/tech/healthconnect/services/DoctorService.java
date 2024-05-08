@@ -171,4 +171,6 @@ public class DoctorService {
         return availabilitySlots;
 
     }
+
+
 }

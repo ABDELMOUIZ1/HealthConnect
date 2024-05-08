@@ -3,6 +3,7 @@ package com.tech.healthconnect.contollers;
 import com.tech.healthconnect.dto.*;
 
 import com.tech.healthconnect.dto.AvailableSlotDTO;
+import com.tech.healthconnect.models.StatusAppointment;
 import com.tech.healthconnect.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -60,4 +61,5 @@ public class DoctorController {
         return ResponseEntity.ok(availabilitySlots);
 
     }
+
 }
