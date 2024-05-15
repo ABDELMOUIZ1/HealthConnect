@@ -3,6 +3,9 @@ package com.tech.healthconnect.contollers;
 import com.tech.healthconnect.dto.*;
 
 import com.tech.healthconnect.dto.AvailableSlotDTO;
+import jakarta.xml.bind.DatatypeConverter;
+
+import com.tech.healthconnect.models.Doctor;
 import com.tech.healthconnect.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -63,6 +66,21 @@ public class DoctorController {
         List<AvailableSlotDTO> availabilitySlots = doctorService.checkDoctorAvailability(doctorId, dateStr);
         return ResponseEntity.ok(availabilitySlots);
 
+    }
+    @PostMapping("/register/doctor")
+    public ResponseEntity<String> registerDoctor(@RequestBody Doctor doctor) {
+        String jwtToken = doctorService.registerDoctor(doctor);
+        System.out.println(ResponseEntity.ok(jwtToken));
+        return ResponseEntity.ok(jwtToken);
+    }
+    @PostMapping("/login/doctor")
+    public ResponseEntity<String> loginDoctor(@RequestParam String doctorEmail, @RequestParam String doctorPassword) {
+        String jwtToken = doctorService.loginDoctor(doctorEmail, doctorPassword);
+        if (jwtToken != null) {
+            return ResponseEntity.ok(jwtToken);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 
 

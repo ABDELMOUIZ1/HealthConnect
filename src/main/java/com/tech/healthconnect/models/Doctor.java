@@ -44,4 +44,5 @@ public class Doctor {
 
     @OneToMany(mappedBy = "doctor", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
+
 }

@@ -21,10 +21,6 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-
-
-
     @DateTimeFormat(pattern = "HH:mm:ss")
     private LocalTime startTime;
 

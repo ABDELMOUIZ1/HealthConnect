@@ -24,6 +24,7 @@ public interface DoctorRepo extends JpaRepository<Doctor, Long> {
                                        @Param("currentCity") String currentCity,
                                        @Param("officeAddress") String officeAddress,
                                        @Param("specialization") String specialization );
+    Doctor findByDoctorEmail(String email);
 
 
 

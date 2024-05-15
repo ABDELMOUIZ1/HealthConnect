@@ -1,5 +1,6 @@
 package com.tech.healthconnect.services;
 
+import com.tech.healthconnect.config.JwtConfig;
 import com.tech.healthconnect.dto.*;
 import com.tech.healthconnect.models.Appointment;
 import com.tech.healthconnect.dto.AvailableSlotDTO;
@@ -8,6 +9,7 @@ import com.tech.healthconnect.repositories.AppointmentRepo;
 import com.tech.healthconnect.repositories.DoctorRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,6 +34,11 @@ public class DoctorService {
     private DoctorRepo doctorRepo;
     @Autowired
     private AppointmentRepo appointmentRepo;
+    @Autowired
+    private JwtConfig jwtUtil;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     //for searching
     @Transactional
@@ -176,5 +183,22 @@ public class DoctorService {
         System.out.println(availabilitySlots);
         return availabilitySlots;
 
+    }
+    public String registerDoctor(Doctor doctor) {
+        // Hash doctor's password
+        String hashedPassword = bCryptPasswordEncoder.encode(doctor.getDoctorPassword());
+        doctor.setDoctorPassword(hashedPassword);
+        // Save doctor details in the database
+        doctorRepo.save(doctor);
+        System.out.println(jwtUtil.generateToken(doctor.getDoctorId(), "doctor"));
+        // Generate JWT token
+        return jwtUtil.generateToken(doctor.getDoctorId(), "doctor");
+    }
+    public String loginDoctor(String doctorEmail, String doctorPassword) {
+        Doctor doctor = doctorRepo.findByDoctorEmail(doctorEmail);
+        if (doctor != null && bCryptPasswordEncoder.matches(doctorPassword, doctor.getDoctorPassword())) {
+            return jwtUtil.generateToken(doctor.getDoctorId(), "doctor");
+        }
+        return null;
     }
 }
