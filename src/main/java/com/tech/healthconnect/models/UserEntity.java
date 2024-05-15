@@ -1,8 +1,10 @@
 package com.tech.healthconnect.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "users")
 public class UserEntity {
     @Id
